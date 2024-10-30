@@ -1,0 +1,48 @@
+Reference Transcription Guidelines
+
+- Apostophes (own observation)
+    - Example: couldn't, he's
+- Acronyms
+    - Acronyms have '_' by convention
+    - Example: n_a_f_a, n_t_u, l_m_s
+- Multi-word nouns
+    - Multi-word nouns have '-' by convention
+    - Example: hong-kong, ang-mo-kio, s_t-engineering
+- Discourse particles (Unique Singlish particles)
+    - Discourse particles have [...] by convention
+    - Example: [oh], [ah], [wah], [one], [lah]
+- Fillers
+    - Fillers have (...) by convention
+    - Example: (uh), (um), (er), (erm)
+- Interjections
+    - Interjections have !...! by example
+    - Example: !walao!, !wow!, !aiyo!
+- Paralinguistic Phenomena (e.g., breathing, coughing, laughing)
+    - Paralinguistic Phenomena includes
+        - (ppb) breath
+        - (ppc) cough
+        - (ppl) laugh
+        - (ppo) others
+    - Example: (ppc), (ppo), (ppb), (ppl)
+- Other languages 
+    - Other languages have #...# by convention
+    - Example: #pasar malam#, #roti-john#, #tak sedap#, #muah-chee#, #shiok#, #pek chek#
+- Unclear words
+    - Unclear words are denoted by ```<UNK>``` or ```<unk>```
+- Incomplete words
+    - Incomplete words have '~' at the end by convention
+    - Example: abbre~, abbrev~
+- Short pauses: ```<S>```
+- Invalid: ```<Z>```
+    - Invalid speech, Noise, Non-primary speaker's voice, Sounds from the monitor/speaker, Continuous noise 
+- <u>Long-running</u> Non-English utterances: ```<NEN>```
+- Fillers: ```<FIL/>```
+    - This is equivalent to [xxx]
+- Speaker Noise: ```<SPK/>```
+    - This is equivalent to (ppb), (ppc), (ppl), (ppo)
+- Unknown: ** 
+    - This is equivalent to ```<UNK>```
+- Non-primary speaker sound: ```<NON/>```
+    - This includes background sounds, including sounds made by other speaker, background noise etc.
+- End of sentence: ```<s/>```
+- Comma: ```<c/>```

@@ -1,7 +1,8 @@
 **TextGrids**
 - min and max/start and end times of textgrid wrt audio file
 - number of tiers
-- data of each tier: intervals (have duration) or points (instaneous) they contain 
+- collection of tiers -> IntervalTiers (annotate events that have duration), PointTiers (annotate instaneous events)
+- TextGrid is just a container for tiers
 
 <br/>
 <br/>
@@ -25,7 +26,7 @@ tg = textgrid.openTextgrid(inputFN, includeEmptyIntervals=False)
 <u>Getting a Tier</u>
 
 - TextGrid tiers are stored in tierDict
-- TextGrid tier names are stored in tierNames -> tg.tierNames
+- TextGrid tier names and order are stored in tierNames -> tg.tierNames
 
 ```
 firstTier = tg.getTier(tg.tierNames[0])

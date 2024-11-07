@@ -48,10 +48,9 @@ _LICENSE = ""
         - train
             - prompts.txt: Contains transcriptions for all the .wav files
             - waves
-                - 3000-1.tar
-                    - 3000-1_1.wav
-                    - 3000-1_2.wav
-                    - 3000-1_3.wav
+                - 3000-1_1.wav
+                - 3000-1_2.wav
+                - 3000-1_3.wav
 - prompts-train.txt.gz
     - prompts-train.txt: Contains transcriptions for all the train .wav files
 '''
@@ -59,7 +58,7 @@ _LICENSE = ""
 # TODO: Add link to the official dataset URLs here
 # The HuggingFace Datasets library doesn't host the datasets but only points to the original files.
 # This can be an arbitrary nested dict/list of URLs (see below in `_split_generators` method)
-_DATA_URL = "data/train.tar.gz"
+_DATA_URL = "data/imda_nsc_p3.tar.gz"
 
 _PROMPTS_URLS = {
     "train": "data/prompts-train.txt.gz",
@@ -111,7 +110,7 @@ class SinglishDataset(datasets.GeneratorBasedBuilder):
 
 
         '''
-        _DATA_URL = "data/train.tar.gz"
+        _DATA_URL = "data/imda_nsc_p3.tar.gz"
 
         _PROMPTS_URLS = {
             "train": "data/prompts-train.txt.gz",
@@ -122,10 +121,9 @@ class SinglishDataset(datasets.GeneratorBasedBuilder):
                 - train
                     - prompts.txt: Contains transcriptions for all the .wav files
                     - waves
-                        - 3000-1.tar
-                            - 3000-1_1.wav
-                            - 3000-1_2.wav
-                            - 3000-1_3.wav
+                        - 3000-1_1.wav
+                        - 3000-1_2.wav
+                        - 3000-1_3.wav
         - prompts-train.txt.gz
             - prompts-train.txt: Contains transcriptions for all the train .wav files
         '''
@@ -133,9 +131,9 @@ class SinglishDataset(datasets.GeneratorBasedBuilder):
         # Accepts a relative path to a file in the Hub dataset repo, example in data/
         # https://huggingface.co/docs/datasets/v3.1.0/en/package_reference/builder_classes#datasets.DownloadManager.download
         # https://huggingface.co/docs/datasets/v3.1.0/en/package_reference/builder_classes#datasets.DownloadManager.iter_archive
-        prompts_paths = dl_manager.download_and_extract(_PROMPTS_URLS) # Download metadata file at _PROMPT_URLS
-        archive = dl_manager.download(_DATA_URL) # Download audio TAR archive at _DATA_URL
-        train_dir = "imda_nsc_p3/train"
+        prompts_paths = dl_manager.download_and_extract(_PROMPTS_URLS) 
+        archive = dl_manager.download(_DATA_URL) 
+        train_dir = "train"
         # Use SplitGenerator to organize audio files and transcriptions in each split 
         # All these file paths are passed to the next step to generate the dataset
         return [
@@ -146,7 +144,7 @@ class SinglishDataset(datasets.GeneratorBasedBuilder):
                     "path_to_clips": train_dir + "/waves", # imda_nsc_p3/train/waves
                     # Use iter_archive to iterate over audio files in the TAR archive
                     # This enables streaming for the dataset
-                    "audio_files": dl_manager.iter_archive(archive), # archive contains vivos
+                    "audio_files": dl_manager.iter_archive(archive), 
                 },
             )
         ]
@@ -169,11 +167,10 @@ class SinglishDataset(datasets.GeneratorBasedBuilder):
         # prompts_path: prompts-train.txt.gz
         with open(prompts_path, encoding="utf-8") as f:
             # For each transcription. Example: 3000-1_1 transcription
-            # Get the audio file path, transcription and use the audio path as a key for the examples
+            # Get the audio file path, transcription and use the audio path as a key for the examples. 
             for row in f:
                 data = row.strip().split(" ", 1) # Split into [3000-1_1, transcription]
-                folder = data[0].split("_")[0] # Get the audio folder 3000-1
-                audio_path = "/".join([path_to_clips, folder, data[0] + ".wav"]) # imda_nsc_p3/train/waves/3000-1/3000-1_1.wav
+                audio_path = "/".join([path_to_clips, data[0] + ".wav"]) # imda_nsc_p3/train/waves/3000-1_1.wav
                 examples[audio_path] = {
                     "path": audio_path,
                     "sentence": data[1],
@@ -182,19 +179,34 @@ class SinglishDataset(datasets.GeneratorBasedBuilder):
         # Iterate over files in audio_files (vivos): Yield them along with their corresponding metadata
         # iter_archive() yields a tuple of (path, f) where path is a relative path to a file inside TAR archive 
         # and f is a file object itself.
+
+        '''
+        - imda_nsc_p3.tar.gz
+            - imda_nsc_p3.tar
+                - train
+                    - prompts.txt: Contains transcriptions for all the .wav files
+                    - waves
+                        - 3000-1_1.wav
+                        - 3000-1_2.wav
+                        - 3000-1_3.wav
+        - prompts-train.txt.gz
+            - prompts-train.txt: Contains transcriptions for all the train .wav files
+        '''
         inside_clips_dir = False
         id_ = 0
         for path, f in audio_files:
-            # path_to_clips example: imda_nsc_p3/train/waves/. If we are in the directory we want
+            # path: train/waves/3000-1_1.wav, 
+            # path_to_clips example: train/waves/. If we are in the directory we want
+            #print("path_to_clips")
+            #print(path_to_clips)
+            #print("path")
+            #print(path)
             if path.startswith(path_to_clips):
                 # Indicate that we are in the clips directory that we want
                 inside_clips_dir = True
-
-                
-
-                # If the path is in the example dictionary we created earlier 
+                # If the path is in the example dictionary we created earlier, ex. train/waves/3000-1_1.wav
                 if path in examples:
-                    # add the audio information into the example: path and audio file in bytes
+                    # add the audio information into the example: path and audio file in bytes. We are linking the transcription and audio information as a sample
                     audio = {"path": path, "bytes": f.read()}
                     # Yield the id and example. Increment the id
                     yield id_, {**examples[path], "audio": audio}

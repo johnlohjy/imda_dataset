@@ -39,7 +39,7 @@ _LICENSE = ""
 
 
 # TODO: Add link to the official dataset URLs here
-_DATA_URL = "data/imda_nsc_p3_testing.tar.gz"
+_DATA_URL = "data/imda_nsc_p3.tar.gz"
 
 _PROMPTS_URLS = {
     "train": "data/prompts-train.txt.gz",

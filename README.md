@@ -18,9 +18,9 @@
 
 # Steps to use dataset
 
-### Step 1: Refer to ```use_dataset_small_train.ipynb``` to see an example on how to stream 50 hours of training data
+### Step 1: Refer to ```use_dataset_full_train.ipynb``` to see an example on how to stream training data
 
-### Step 2: Refer to ```use_dataset_small_test.ipynb``` to see an example on how to stream 6 hours of test data
+### Step 2: Refer to ```use_dataset_full_test.ipynb``` to see an example on how to stream test data
 
 <br/>
 <br/>
